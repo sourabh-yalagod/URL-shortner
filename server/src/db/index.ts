@@ -49,10 +49,25 @@ export async function findUrlByShortCode(shortCode: string) {
     return result
 }
 
+export async function getAllShortCodes() {
+    const result = await pool.query(
+        'SELECT * FROM urls',
+    );
+    return result
+}
+
 export async function insertNewShortCode(shortCode: string, url: string) {
     const result = await pool.query(
         'INSERT INTO urls (short_code, original_url) VALUES ($1, $2) RETURNING *',
         [shortCode, url]
+    );
+    return result
+}
+
+export async function deleteShortCode(shortCode: string,) {
+    const result = await pool.query(
+        'DELETE FROM urls WHERE short_code=$1',
+        [shortCode]
     );
     return result
 }

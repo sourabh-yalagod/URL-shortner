@@ -1,9 +1,13 @@
 import { Router } from "express";
-import { getStatisticsOfUrl, handleShortenUrl, redirectUrl } from "../controllers/url.controller";
+import { createLink, deleteLink, getAllLinks, getStatisticsOfUrl,redirectUrl } from "../controllers/url.controller";
 
 const router = Router()
-router.post('/api/shorten', handleShortenUrl)
-router.get('/:shortCode', redirectUrl)
-router.get('/api/stats/:shortCode', getStatisticsOfUrl)
+router.post('/api/links', createLink);
+router.get('/api/links', getAllLinks);
+router.get('/api/links/:code', getStatisticsOfUrl);
+router.delete('/api/links/:code', deleteLink);
+
+// Public redirect
+router.get('/:code', redirectUrl);
 
 export default router;
