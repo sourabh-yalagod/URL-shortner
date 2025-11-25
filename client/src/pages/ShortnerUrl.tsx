@@ -315,15 +315,7 @@ export default function ShortnerUrl() {
             <div className="bg-white rounded-lg p-4 shadow">
               <p className="text-gray-600 text-sm">Total Clicks</p>
               <p className="text-3xl font-bold text-gray-900">
-                {links.reduce((sum, link) => sum + (link.total_clicks || 0), 0)}
-              </p>
-            </div>
-            <div className="bg-white rounded-lg p-4 shadow">
-              <p className="text-gray-600 text-sm">Avg Clicks</p>
-              <p className="text-3xl font-bold text-gray-900">
-                {Math.round(
-                  links.reduce((sum, link) => sum + (link.total_clicks || 0), 0) / links.length
-                )}
+                {links.reduce((sum, link) => sum + (link?.clicks || 0), 0)}
               </p>
             </div>
             <div className="bg-white rounded-lg p-4 shadow">
