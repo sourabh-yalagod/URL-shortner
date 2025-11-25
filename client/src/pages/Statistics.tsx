@@ -12,7 +12,7 @@ export default function Statistics() {
   const [error, setError] = useState("");
   const [copied, setCopied] = useState(false);
   const [deleting, setDeleting] = useState(false);
-  const [totalClicks, setTotalClicks] = useState(0)
+
   useEffect(() => {
     fetchStats();
   }, [code]);
@@ -23,12 +23,7 @@ export default function Statistics() {
     try {
       const response: any = await getStatistics(code!);
       setStats(response.data);
-      const total_clicks = response.data?.reduce(
-        (sum: number, item: any) => sum + (item?.clicks ?? 0),
-        0
-      ) ?? 0;
-
-      setTotalClicks(() => total_clicks)
+    
     } catch (err: any) {
       setError(err.response?.data?.error || err.message || "Failed to fetch statistics");
     } finally {
@@ -132,7 +127,7 @@ export default function Statistics() {
               {/* Total Clicks */}
               <div className="bg-white rounded-xl shadow-lg p-6">
                 <p className="text-sm font-semibold text-gray-500 uppercase mb-2">Total Clicks</p>
-                <p className="text-5xl font-bold text-green-600 mb-4">{totalClicks || 0}</p>
+                <p className="text-5xl font-bold text-green-600 mb-4">{stats?.clicks || 0}</p>
                 <p className="text-sm text-gray-600">clicks tracked</p>
               </div>
             </div>
@@ -157,7 +152,7 @@ export default function Statistics() {
                   <p className="text-sm font-semibold text-gray-500 uppercase">Last Clicked</p>
                 </div>
                 <p className="text-xl font-bold text-gray-900">
-                  {stats.last_clicked ? formatDate(stats.last_clicked) : "Never clicked"}
+                  {!stats.last_clicked ? formatDate(new Date()) : "Never clicked"}
                 </p>
               </div>
             </div>
