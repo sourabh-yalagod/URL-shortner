@@ -22,11 +22,12 @@ export const handleShortenUrl = async (req: any, res: any) => {
         }
 
         const result = await insertNewShortCode(shortCode, url);
+        const baseUrl = `${req.protocol}://${req.get('host')}`;
 
         res.status(201).json({
             short_code: result.rows[0].short_code,
             original_url: result.rows[0].original_url,
-            short_url: `http://localhost:3000/${result.rows[0].short_code}`
+            short_url: `${baseUrl}/${result.rows[0].short_code}`
         });
     } catch (err) {
         console.error('Error:', err);
@@ -57,16 +58,16 @@ export const redirectUrl = async (req: any, res: any) => {
 export const getStatisticsOfUrl = async (req: any, res: any) => {
     const { shortCode } = req.params;
 
-  try {
-    const result = await findUrlByShortCode(shortCode)
+    try {
+        const result = await findUrlByShortCode(shortCode)
 
-    if (result.rows.length === 0) {
-      return res.status(404).json({ error: 'URL not found' });
+        if (result.rows.length === 0) {
+            return res.status(404).json({ error: 'URL not found' });
+        }
+
+        res.json(result.rows[0]);
+    } catch (err) {
+        console.error('Error:', err);
+        res.status(500).json({ error: 'Server error' });
     }
-
-    res.json(result.rows[0]);
-  } catch (err) {
-    console.error('Error:', err);
-    res.status(500).json({ error: 'Server error' });
-  }
 }
