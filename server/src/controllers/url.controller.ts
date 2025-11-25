@@ -1,6 +1,7 @@
-import { checkUrlExist, findUrlByShortCode, insertNewShortCode, updateClicks } from "..";
-import { generateShortCode } from "../../utils/common.utils";
-
+import { checkUrlExist, findUrlByShortCode, insertNewShortCode, updateClicks } from "../db";
+import { generateShortCode } from "../utils/common.utils";
+import { config } from "dotenv";
+config()
 export const handleShortenUrl = async (req: any, res: any) => {
     const { url } = req.body;
 
@@ -22,7 +23,7 @@ export const handleShortenUrl = async (req: any, res: any) => {
         }
 
         const result = await insertNewShortCode(shortCode, url);
-        const baseUrl = `${req.protocol}://${req.get('host')}`;
+        const baseUrl = process.env.BACKEND_URL;
 
         res.status(201).json({
             short_code: result.rows[0].short_code,

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getStatisticsOfUrl, handleShortenUrl, redirectUrl } from "../db/controllers/url.controller";
+import { getStatisticsOfUrl, handleShortenUrl, redirectUrl } from "../controllers/url.controller";
 
 const router = Router()
 router.post('/api/shorten', handleShortenUrl)
